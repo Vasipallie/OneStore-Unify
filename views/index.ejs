@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneStore Unify</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="icon" href="../assets/logo.png">
+    <link rel="stylesheet" href="https://starloginapi.vercel.app/sloginbtn.css">
+</head>
+<body>
+    <div class="login-contain">
+        <img src="../assets/logo.png" alt="OneStore Unify Logo" class="logo">
+        <h1>OneStore Unify</h1>
+        <span>All your passwords in one place. Securely.</span>
+        <br>
+    <button id="sl_login_button" class="sl_login_btn"><img src="/assets/skb.png" alt="StarKloud Logo" width="30" height="20"> Continue with StarKloud</button>
+
+        <!-- 
+        <div class="notify">Welcome to OneStore Unify™</div>
+         -->
+    </div>
+    <script>
+         document.getElementById('sl_login_button').addEventListener('click', function(){
+        window.open('https://starloginapi.vercel.app/login/JsOyJzzeTrMdAFNtyokeblixp9jKHD', 'starlogin_auth_popup', 'width=500,height=700');
+    })
+    </script>
+</body>
+</html>

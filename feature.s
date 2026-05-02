@@ -3,4 +3,4 @@
 - Password generation
 - Password storage
 - Support email
-- chrome extension (if i have time)
+- Chrome extension (if i have time)
