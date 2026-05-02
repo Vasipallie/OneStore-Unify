@@ -1,0 +1,6 @@
+- Login/ Signup
+- OneSecure Key:- generation and store
+- Password generation
+- Password storage
+- Support email
+- chrome extension (if i have time)

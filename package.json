@@ -1,0 +1,12 @@
+{
+  "name": "onestore-unify",
+  "version": "1.0.0",
+  "description": "a web application which helps you store passwords and retrieve them on command",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
