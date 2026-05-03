@@ -24,6 +24,11 @@ app.route('/').get((req, res) => {
     res.render('index', { title: "OneStore Web" });
 });
 
+//TESTING USE ONLY
+app.route('/dashboard').get((req,res) => {
+    res.render('dashboard', { title: "OneStore Web" });
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
     console.log(`Visit http://localhost:${PORT}`);
