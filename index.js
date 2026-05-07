@@ -23,6 +23,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.route('/').get((req, res) => {
     res.render('index', { title: "OneStore Web" });
 });
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+});
+
 
 //TESTING USE ONLY
 app.route('/dashboard').get((req,res) => {
