@@ -21,18 +21,30 @@ app.use(express.static(path.join(__dirname, 'views')));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.route('/').get((req, res) => {
-    res.render('index', { title: "OneStore Web" });
+    res.render('index');
+});
+app.route('/login').get((req, res) => {
+    res.render('login');
 });
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
 });
-
+app.route('/create').get((req, res) =>{
+    res.render('signup');
+});
 
 //TESTING USE ONLY
 app.route('/dashboard').get((req,res) => {
     res.render('dashboard', { title: "OneStore Web" });
 });
 
+/*
+THIS IS THE 404 ROUTE
+>>>DO NOT ADD ANYTHING BEYOND THIS<<<
+*/
+app.route('/:id').get((req, res) => {
+    res.status(404).render('404');
+});
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
     console.log(`Visit http://localhost:${PORT}`);
