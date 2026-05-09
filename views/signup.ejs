@@ -175,7 +175,7 @@ a:hover{
                     <div id="color3" class="pws"></div>
                     <div id="color4" class="pws" style="border-radius: 0 5px 5px 0;"></div>
                 </div>
-            <span>Password Strength: <span id="strength-text">Weak</span></span>
+            <span>Password Strength: <span id="strength-text">VeryWeak</span></span>
             </div>
 
             <button type="submit" class="login-btn">Create Account</button>
@@ -185,6 +185,42 @@ a:hover{
         </form>
     </div>
     <script>
+        const passwordInput = document.getElementById('pass');
+        const strengthText = document.getElementById('strength-text');
+        const colorBars = [document.getElementById('color1'), document.getElementById('color2'), document.getElementById('color3'), document.getElementById('color4')];
+        passwordInput.addEventListener('input', function() {
+            const password = passwordInput.value;
+            let strength = 0;
+
+            if (password.length >= 8) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[a-z]/.test(password)) strength++;
+            if (/\d/.test(password)) strength++;
+            if (/[@$!%*?&]/.test(password)) strength++;
+            switch (strength) {
+                case 0:
+                case 1:
+                    strengthText.textContent = 'Very Weak';
+                    colorBars.forEach(bar => bar.style.backgroundColor = '#ff4d4d');
+                    break;
+                case 2:
+                    strengthText.textContent = 'Weak';
+                    colorBars.forEach((bar, index) => bar.style.backgroundColor = index < 2 ? '#ff944d' : '#44CAE1');
+                    break;
+                case 3:
+                    strengthText.textContent = 'Moderate';
+                    colorBars.forEach((bar, index) => bar.style.backgroundColor = index < 3 ? '#ffdb4d' : '#44CAE1');
+                    break;
+                case 4:
+                    strengthText.textContent = 'Strong';
+                    colorBars.forEach((bar, index) => bar.style.backgroundColor = index < 4 ? '#b3ff66' : '#44CAE1');
+                    break;
+                case 5:
+                    strengthText.textContent = 'Very Strong';
+                    colorBars.forEach(bar => bar.style.backgroundColor = '#66ff66');
+                    break;
+            }
+        });
         
     </script>
 </body>
