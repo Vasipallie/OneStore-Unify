@@ -83,7 +83,48 @@
         background-color: #002087;
         box-shadow: 0 0 10px rgba(18, 112, 208, 0.5);
     }
-    
+    .main{
+        margin-top: 2rem;
+        height: 60%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .vault{
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+    .vault-card{
+        background: rgba(0, 0, 0, 0.35);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 12px;
+        padding: 1rem;
+        box-shadow: 0 0 18px rgba(0, 0, 0, 0.25);
+    }
+    .vault-card h3{
+        margin: 0 0 0.75rem 0;
+        font-size: 1.2rem;
+    }
+    .vault-item{
+        margin: 0.35rem 0;
+        word-break: break-word;
+    }
+    .json-view{
+        width: 100%;
+        margin-top: 1rem;
+        padding: 1rem;
+        border-radius: 12px;
+        background: rgba(0, 0, 0, 0.45);
+        border: 1px solid rgba(255,255,255,0.12);
+        overflow-x: auto;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
     </style>
     <link rel="icon" href="../assets/logo.png">
 </head>
@@ -92,15 +133,29 @@
         <div class="logo"><img src="../assets/logo.png" alt="Logo" width="50" height="50"><span>OneStore Unify</span></div>
         <hr>
         
-        <a class="btn" href="/dashboard">Dashboard Home</a>
-        <a class="btn" href="/password-store">Store Passwords</a>
-        <a class="btn" href="/password-view">View Passwords</a>
+        <a class="btn" href="/passwords">Add Passwords</a>
         <a class="btn" href="/password-gen">Password Generator</a>
         <a class="btn logout-btn" href="/logout">OneStore Logout</a>
     </div>
     <div class="content">
         <span style="font-size: 1.25em;">Welcome back to OneStore Unify,</span>
-        <h1>John BlackSmith</h1>               
+        <h1><%= nickname || 'OneStore User' %></h1>         
+        <div class="main">
+            <% if (passwords && Object.keys(passwords).length) { %>
+                <div class="vault">
+                    <% Object.entries(passwords).forEach(([index, entry]) => { %>
+                        <div class="vault-card">
+                            <h3>Entry <%= index %></h3>
+                            <div class="vault-item"><strong>Website:</strong> <%= entry.website || '-' %></div>
+                            <div class="vault-item"><strong>Username:</strong> <%= entry.username || '-' %></div>
+                            <div class="vault-item"><strong>Password:</strong> <%= entry.password || '-' %></div>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <p>No saved passwords found yet.</p>
+            <% } %>
+        </div>      
     </div>
 
     

@@ -160,7 +160,7 @@ input.phrases::placeholder{
             </div>
             <div id="keyverify">
                 <span style="margin-block-end: 1.5rem;">Please re-enter your OneSecret to confirm you have noted it down correctly.</span>
-                <form action="/keyverify" method="POST">
+                <form action="/keysignupverify" method="POST">
                     <div class="keyphrases">
                         <input class="phrases" type="text" name="key1entry" placeholder="Keyphrase 1">
                         <input class="phrases" type="text" name="key2entry" placeholder="Keyphrase 2">
@@ -168,24 +168,17 @@ input.phrases::placeholder{
                         <input class="phrases" type="text" name="key4entry" placeholder="Keyphrase 4">
                         <input class="phrases" type="text" name="key5entry" placeholder="Keyphrase 5">
                         <input class="phrases" type="text" name="key6entry" placeholder="Keyphrase 6">
-
-                        <input class="phrases" type="hidden" value="<%= key1 %>" name="key1" placeholder="Keyphrase 1" disabled>
-                        <input class="phrases" type="hidden" value="<%= key2 %>" name="key2" placeholder="Keyphrase 2" disabled>
-                        <input class="phrases" type="hidden" value="<%= key3 %>" name="key3" placeholder="Keyphrase 3" disabled>
-                        <input class="phrases" type="hidden" value="<%= key4 %>" name="key4" placeholder="Keyphrase 4" disabled>
-                        <input class="phrases" type="hidden" value="<%= key5 %>" name="key5" placeholder="Keyphrase 5" disabled>
-                        <input class="phrases" type="hidden" value="<%= key6 %>" name="key6" placeholder="Keyphrase 6" disabled>
                     </div>
                     <button class="login-btn" type="submit">Confirm Keyphrases</button>
                 </form>
             </div>
         </div>
     <script>
-        
         document.getElementById('keydisplay').style.display = 'block';
         document.getElementById('keyverify').style.display = 'none';
         function keyverif(){
-
+        document.getElementById('keydisplay').style.display = 'none';
+        document.getElementById('keyverify').style.display = 'block';
         }
     </script>
 </body>
