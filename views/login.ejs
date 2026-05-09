@@ -135,14 +135,14 @@ a:hover{
         <h1>OneStore Unify</h1>
         <span style="margin-block-end: 1.5rem;">All your passwords in one place. Securely.</span>
         <form method="POST" action="/login">
-            <input type="email" placeholder="Email" class="input-field">
-            <input type="password" placeholder="Password" class="input-field">
-            <button type="submit" class="login-btn">Login</button>
+            <input type="email" name="email" placeholder="Email" class="input-field">
+            <input type="password" name="password" placeholder="Password" class="input-field">
+            <button type="submit" class="login-btn">Login</button>            
+        </form>
             <div class="cforgot">
-                <a href="/create">OneStore Create</a>
+                <a href="/create">Create OneStore</a>
                 <a style="display:flex-end;" href="/forgot">Forgot Password?</a>
             </div>
-        </form>
     </div>
 </body>
 </html>

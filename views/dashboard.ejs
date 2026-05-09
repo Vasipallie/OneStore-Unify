@@ -27,10 +27,12 @@
         margin:0;
     }
     .nav{
-        min-width:28vw;
+        width:23vw;
         padding:1.5rem;
         box-sizing: border-box;
-        height: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
         background-color:#0000008e;
         backdrop-filter:blur(15px);
         border-right:1px solid #3F6491;
@@ -45,20 +47,43 @@
     }
     hr{
         border: none;
-        border-top: 1px solid #ffffff;
+        border-top: 1px solid rgba(255,255,255,0.6);
         border-radius: 1rem;
-        border: 1px solid #ffffff;
+        width:100%;
+        margin: 1rem 0;
+        box-sizing: border-box;
     }
     .content{
         background-color:#00000046;
         height:100%;
-        width: 77vw;
+        flex: 1;
         padding: 1.5rem;
         box-sizing:border-box;
     }
     span{
         font-size: 1.5rem;
     }
+    .btn{
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        border: none;
+        border-radius: 7px;
+        background-color: #1270D0;
+        color: #ffffff;
+        text-decoration: none;
+        cursor: pointer;
+        align-self: center;
+        font-family: 'geo', sans-serif;
+        width:100%;
+        text-align: center;
+        margin-block: 0.3rem;
+    }
+    .logout-btn{
+        margin-top: auto;
+        background-color: #002087;
+        box-shadow: 0 0 10px rgba(18, 112, 208, 0.5);
+    }
+    
     </style>
     <link rel="icon" href="../assets/logo.png">
 </head>
@@ -66,11 +91,15 @@
     <div class="nav">
         <div class="logo"><img src="../assets/logo.png" alt="Logo" width="50" height="50"><span>OneStore Unify</span></div>
         <hr>
+        
+        <a class="btn" href="/dashboard">Dashboard Home</a>
+        <a class="btn" href="/password-gen"></a>
+        <a class="btn" href="/password-gen">Password Generator</a>
+        <a class="btn logout-btn" href="/logout">OneStore Logout</a>
     </div>
     <div class="content">
         <span style="font-size: 1.25em;">Welcome back to OneStore Unify,</span>
-        <h1>John BlackSmith</h1>
-                                                       
+        <h1>John BlackSmith</h1>               
     </div>
 
     

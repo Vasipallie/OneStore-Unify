@@ -3,9 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OneStore Unify | OneSecret</title>
+    <title>OneStore Unify</title>
+    <link rel="stylesheet" href="/styles.css">
+
+    <style>
+        
+@import url('https://fonts.googleapis.com/css2?family=Stack+Sans+Notch:wght@200..700&display=swap');
+body{
+    font-family: "Stack Sans Notch", sans-serif;
+    background-color: #0f0f0f;
+    color:#ffffff;
+    margin: 0;
+    padding: 1rem;
+    box-sizing: border-box;
+    background-image: url('../assets/bgs.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+h1{
+    font-size: 2.5rem;
+    margin:0;
+}
+.logo{
+    width:6rem;
+    height:6rem;
+}
+
+.login-contain{
+    display:flex;
+    flex-direction:column;
+    background-color: rgba(0,0,0,0.5);
+    max-width:30vw;
+    height: auto;
+    padding: 2rem;
+    align-items: center;
+    text-align: center;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+}
+
+.notify{
+    background-color: rgba(8, 116, 159, 0.274);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.274);
+    border:1px solid #c2c2c2;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+}
+input{
+    width: 100%;
+    padding: 0.5rem;
+    margin: 0;
+    border: none;
+    border-radius: 5px;
+}
+
+input[type="email"]{
+    background-color:#ffffff;
+    color:#000000;
+    font-family: 'geo', sans-serif;
+    backdrop-filter: blur(15px);
+    margin:0;
+    margin-block-start: 0.5rem;
+    font-size: 1rem;
+}
+form{
+    width:100%;
+}
+input[type="text"].phrases{
+    background-color:#000000; /* restored dark background */
+    color:#00ff00; /* restored green text */
+    font-family: 'geo', sans-serif;
+    box-shadow: 0 0 10px rgba(66,66,66,0.6);
+    margin-block: 0.5rem;
+    font-size: 1rem;
+    padding: 0.6rem;
+}
+input::placeholder{
+    color:#3b3b3b;
+    opacity: 0.7;
+}
+.input-field,.login-btn{
+    align-self: stretch;
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+}
+.login-btn{
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 7px;
+    background-color: #1270D0;
+    color: #ffffff;
+    cursor: pointer;
+    font-family: 'geo', sans-serif;
+}
+.keyphrases{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.1rem 1.5rem;
+    width: 100%;
+}
+    
+hr{
+    border: none;
+    border-top: 1px solid rgb(81, 128, 185);
+    border-radius: 1rem;
+    width: 100%;
+}
+.cforgot{
+    display:flex;
+    flex-direction:row;
+    justify-content: space-between;
+    width:100%;
+    margin-block: 0.5rem;
+}
+a{
+    color:#d4e9ff;
+    text-decoration: none;
+}
+a:hover{
+    color:#7dbcff;
+    text-decoration: none;
+}
+h2{
+    font-size: 3rem;
+}
+input.phrases::placeholder{
+    color:#00ff00;
+    opacity: 0.7;
+}
+    </style>
+    <link rel="icon" href="../assets/logo.png">
 </head>
 <body>
-    
+    <div class="login-contain">
+        <img src="../assets/logo.png" alt="OneStore Unify Logo" class="logo">
+        <h1>OneStore Unify</h1>
+        <span style="margin-block-end: 1.5rem;">Please enter your OneSecret to encrypt and decrypt your passwords</span>
+        <div class="notify" id="notification"><%= locals.notification || 'OneSecrets cannot be recovered if lost.' %></div>
+        <form action="/keyauth" method="POST">
+            <div class="keyphrases">
+                <input class="phrases" type="text" name="key1" placeholder="Keyphrase 1">
+                <input class="phrases" type="text" name="key2" placeholder="Keyphrase 2">
+                <input class="phrases" type="text" name="key3" placeholder="Keyphrase 3">
+                <input class="phrases" type="text" name="key4" placeholder="Keyphrase 4">
+                <input class="phrases" type="text" name="key5" placeholder="Keyphrase 5">
+                <input class="phrases" type="text" name="key6" placeholder="Keyphrase 6">
+            </div>
+            <button class="login-btn" type="submit">Validat Keyphrases</button>
+        </form>
+    </div>
 </body>
 </html>

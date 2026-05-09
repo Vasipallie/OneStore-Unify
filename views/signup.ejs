@@ -164,9 +164,10 @@ a:hover{
         <h1>OneStore Unify</h1>
         <span style="margin-block-end: 1.5rem;">Create your OneStore Unify account</span>
         <form method="POST" action="/create">
-            <input type="email" placeholder="Email" class="input-field">
-            <input type="password" id="pass" placeholder="Password" class="input-field">         
-            <input type="password" id="confirm" placeholder="Confirm Password" class="input-field">
+            <input type="text" name="nickname" placeholder="Nickname" class="input-field">
+            <input type="email" name="email" placeholder="Email" class="input-field">
+            <input type="password" name="password" id="pass" placeholder="Password" class="input-field">         
+            <input type="password" name="confirm_password" id="confirm" placeholder="Confirm Password" class="input-field">
             <div class="strength">
                 <div class="displ">
                     <div id="color1" class="pws" style="border-radius: 5px 0 0 5px;"></div>
