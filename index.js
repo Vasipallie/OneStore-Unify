@@ -18,6 +18,36 @@ app.use(cookieParser());
 const supabase = createClient(process.env.supaURL, process.env.supaKEY);
 const crypto = await import('crypto');
 
+function parseSessionCookie(sessionCookie) {
+    if (!sessionCookie) {
+        return null;
+    }
+
+    if (typeof sessionCookie === 'object') {
+        return sessionCookie;
+    }
+
+    try {
+        return JSON.parse(sessionCookie);
+    } catch {
+        return null;
+    }
+}
+
+function storeSessionCookie(res, session) {
+    if (!session?.access_token || !session?.refresh_token) {
+        return;
+    }
+
+    res.cookie('session', JSON.stringify({
+        access_token: session.access_token,
+        refresh_token: session.refresh_token,
+    }), {
+        httpOnly: true,
+        sameSite: 'lax',
+    });
+}
+
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'views')));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -53,7 +83,7 @@ app.route('/').get((req, res) => {
 });
 // Login
 app.route('/login').get((req, res) => {
-    const session = req.cookies.session;
+    const session = parseSessionCookie(req.cookies.session);
     const keyphrase = req.cookies.keyphrase;
     if (session){
         supabase.auth.setSession(session).then(({data,error}) =>{
@@ -82,12 +112,12 @@ app.post('/login', async (req, res) => {
         console.error('login error:', error);
         res.status(401).render('login', { error: 'Invalid email or password' });
     }else{
-        res.cookie('session', data.session, { httpOnly: true });
+        storeSessionCookie(res, data.session);
         res.redirect('/keyauth');
     }
 });
 app.route('/dashboard').get((req, res) =>{
-    const session = req.cookies.session;
+    const session = parseSessionCookie(req.cookies.session);
     const keyphrase = req.cookies.keyphrase;
     if (!keyphrase){
         return res.redirect('/keyauth');
@@ -127,6 +157,45 @@ app.route('/dashboard').get((req, res) =>{
         res.render('login', { error: 'Please log in to access the dashboard.' });
     }
 });
+
+async function verifyKeyAuth(req, res) {
+    const { key1entry, key2entry, key3entry, key4entry, key5entry, key6entry, key1, key2, key3, key4, key5, key6 } = req.body;
+    const keyphraseentry = [
+        key1entry ?? key1 ?? '',
+        key2entry ?? key2 ?? '',
+        key3entry ?? key3 ?? '',
+        key4entry ?? key4 ?? '',
+        key5entry ?? key5 ?? '',
+        key6entry ?? key6 ?? '',
+    ].join('');
+    const session = parseSessionCookie(req.cookies.session);
+
+    if (!session){
+        return res.status(400).render('login', { error: 'Please log in first.' });
+    }
+
+    const sessionResult = await supabase.auth.setSession(session);
+    if (sessionResult.error){
+        console.error('session error:', sessionResult.error);
+        res.clearCookie('session');
+        return res.render('login', { error: 'Session expired. Please log in again.' });
+    }
+
+    const useruid = sessionResult.data.user.id;
+    const { data, error } = await supabase.from('Databayse').select('*').eq('useruid', useruid).single();
+    if (error || !data){
+        console.error('database error:', error);
+        return res.status(500).render('keyauth', { error: 'Error loading key data. Please try again later.' });
+    }
+
+    const hash = crypto.createHash('sha256').update(keyphraseentry + data.salt).digest('hex');
+    if (hash !== data.hash){
+        return res.status(401).render('keyauth', { error: 'Invalid keyphrases. Please try again.' });
+    }
+
+    res.cookie('keyphrase', keyphraseentry, { httpOnly: true });
+    return res.redirect('/dashboard');
+}
 // Signup
 app.route('/create').get((req, res) =>{
     res.render('signup');
@@ -168,37 +237,8 @@ app.post('/create', async (req, res) =>{
 app.route('/keyauth').get((req, res) =>{
     res.render('keyauth');
 });
-app.post('/keyverify', async (req, res) =>{
-    const { key1entry, key2entry, key3entry, key4entry, key5entry, key6entry } = req.body;
-    const keyphraseentry = [key1entry, key2entry, key3entry, key4entry, key5entry, key6entry].join('');
-    const session = req.cookies.session;
-
-    if (!session){
-        return res.status(400).render('login', { error: 'Please log in first.' });
-    }
-
-    const sessionResult = await supabase.auth.setSession(session);
-    if (sessionResult.error){
-        console.error('session error:', sessionResult.error);
-        res.clearCookie('session');
-        return res.render('login', { error: 'Session expired. Please log in again.' });
-    }
-
-    const useruid = sessionResult.data.user.id;
-    const { data, error } = await supabase.from('Databayse').select('*').eq('useruid', useruid).single();
-    if (error || !data){
-        console.error('database error:', error);
-        return res.status(500).render('keyauth', { error: 'Error loading key data. Please try again later.' });
-    }
-
-    const hash = crypto.createHash('sha256').update(keyphraseentry + data.salt).digest('hex');
-    if (hash !== data.hash){
-        return res.status(401).render('keyauth', { error: 'Invalid keyphrases. Please try again.' });
-    }
-
-    res.cookie('keyphrase', keyphraseentry, { httpOnly: true });
-    return res.redirect('/dashboard');
-});
+app.post('/keyauth', verifyKeyAuth);
+app.post('/keyverify', verifyKeyAuth);
 app.route('/logout').get((req, res) =>{
     res.clearCookie('session');
     res.clearCookie('keyphrase');
@@ -219,7 +259,7 @@ app.post('/keysignupverify', (req, res) =>{
     return res.status(401).render('keydisp', { error: 'Invalid keyphrases. Please try again.' });
 });
 app.route('/passwords').get(async (req, res) =>{
-    const session = req.cookies.session;
+    const session = parseSessionCookie(req.cookies.session);
     const keyphrase = req.cookies.keyphrase;
     if (!session || !keyphrase){
         return res.redirect('/login');
@@ -251,7 +291,7 @@ app.route('/passwords').get(async (req, res) =>{
     return res.render('passwords', { nickname: userData.nick, passwords });
 });
 app.post('/passwords', async (req, res) =>{
-    const session = req.cookies.session;
+    const session = parseSessionCookie(req.cookies.session);
     const keyphrase = req.cookies.keyphrase;
     if (!session || !keyphrase){
         return res.redirect('/login');
@@ -300,7 +340,7 @@ app.post('/passwords', async (req, res) =>{
 });
 // Password generator routes
 app.route('/password-gen').get((req, res) =>{
-    const session = req.cookies.session;
+    const session = parseSessionCookie(req.cookies.session);
     if (!session){
         return res.redirect('/login');
     }
@@ -308,7 +348,7 @@ app.route('/password-gen').get((req, res) =>{
 });
 
 app.post('/password-gen', (req, res) =>{
-    const session = req.cookies.session;
+    const session = parseSessionCookie(req.cookies.session);
     if (!session){
         return res.redirect('/login');
     }

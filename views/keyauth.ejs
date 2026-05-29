@@ -147,14 +147,14 @@ input.phrases::placeholder{
         <h1>OneStore Unify</h1>
         <span style="margin-block-end: 1.5rem;">Please enter your OneSecret to encrypt and decrypt your passwords</span>
         <div class="notify" id="notification"><%= locals.notification || 'OneSecrets cannot be recovered if lost.' %></div>
-        <form action="/keyauth" method="POST">
+        <form action="/keyverify" method="POST">
             <div class="keyphrases">
-                <input class="phrases" type="text" name="key1" placeholder="Keyphrase 1">
-                <input class="phrases" type="text" name="key2" placeholder="Keyphrase 2">
-                <input class="phrases" type="text" name="key3" placeholder="Keyphrase 3">
-                <input class="phrases" type="text" name="key4" placeholder="Keyphrase 4">
-                <input class="phrases" type="text" name="key5" placeholder="Keyphrase 5">
-                <input class="phrases" type="text" name="key6" placeholder="Keyphrase 6">
+                <input class="phrases" type="text" name="key1entry" placeholder="Keyphrase 1">
+                <input class="phrases" type="text" name="key2entry" placeholder="Keyphrase 2">
+                <input class="phrases" type="text" name="key3entry" placeholder="Keyphrase 3">
+                <input class="phrases" type="text" name="key4entry" placeholder="Keyphrase 4">
+                <input class="phrases" type="text" name="key5entry" placeholder="Keyphrase 5">
+                <input class="phrases" type="text" name="key6entry" placeholder="Keyphrase 6">
             </div>
             <button class="login-btn" type="submit">Validate Keyphrases</button>
         </form>
