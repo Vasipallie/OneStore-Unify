@@ -256,7 +256,7 @@ app.post('/keysignupverify', (req, res) =>{
         return res.redirect('/dashboard');
     }
 
-    return res.status(401).render('keydisp', { error: 'Invalid keyphrases. Please try again.' });
+    return res.status(400).render('keydisp', { notification: 'Invalid keyphrases. Please try again.' });
 });
 app.route('/passwords').get(async (req, res) =>{
     const session = parseSessionCookie(req.cookies.session);
