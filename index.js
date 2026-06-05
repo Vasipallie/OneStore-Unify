@@ -245,10 +245,10 @@ app.route('/logout').get((req, res) =>{
     res.render('logout');
 });
 app.post('/keysignupverify', (req, res) =>{
-    const { key1entry, key2entry, key3entry, key4entry, key5entry, key6entry } = req.body;
+    const { key1entry, key2entry, key3entry, key4entry, key5entry, key6entry, key1, key2, key3, key4, key5, key6 } = req.body;
     const storedKeyphrase = req.cookies.keyphrase;
     if (!storedKeyphrase) {
-        return res.render('keydisp', { error: 'Session expired. Please sign up again.' });
+        return res.render('keydisp', { error: 'Session expired. Please sign up again.', key1, key2, key3, key4, key5, key6 });
     }
 
     const keyphraseentry = [key1entry, key2entry, key3entry, key4entry, key5entry, key6entry].join('');
@@ -256,7 +256,7 @@ app.post('/keysignupverify', (req, res) =>{
         return res.redirect('/dashboard');
     }
 
-    return res.render('keydisp', { notification: 'Invalid keyphrases. Please try again.' });
+    return res.render('keydisp', { notification: 'Invalid keyphrases. Please try again.', key1, key2, key3, key4, key5, key6 });
 });
 app.route('/passwords').get(async (req, res) =>{
     const session = parseSessionCookie(req.cookies.session);

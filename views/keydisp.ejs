@@ -161,6 +161,14 @@ input.phrases::placeholder{
             <div id="keyverify">
                 <span style="margin-block-end: 1.5rem;">Please re-enter your OneSecret to confirm you have noted it down correctly.</span>
                 <form action="/keysignupverify" method="POST">
+                    <div style="display:none;">
+                        <input type="hidden" name="key1" value="<%= key1 %>">
+                        <input type="hidden" name="key2" value="<%= key2 %>">
+                        <input type="hidden" name="key3" value="<%= key3 %>">
+                        <input type="hidden" name="key4" value="<%= key4 %>">
+                        <input type="hidden" name="key5" value="<%= key5 %>">
+                        <input type="hidden" name="key6" value="<%= key6 %>">
+                    </div>
                     <div class="keyphrases">
                         <input class="phrases" type="text" name="key1entry" placeholder="Keyphrase 1">
                         <input class="phrases" type="text" name="key2entry" placeholder="Keyphrase 2">
