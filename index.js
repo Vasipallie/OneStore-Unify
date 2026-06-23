@@ -167,7 +167,7 @@ async function verifyKeyAuth(req, res) {
         key4entry ?? key4 ?? '',
         key5entry ?? key5 ?? '',
         key6entry ?? key6 ?? '',
-    ].join('');
+    ].join('').toLowerCase();
     const session = parseSessionCookie(req.cookies.session);
 
     if (!session){
@@ -214,7 +214,7 @@ app.post('/create', async (req, res) =>{
     const key4 = generate({minLength:6});
     const key5 = generate({minLength:6});
     const key6 = generate({minLength:6});
-    const keyphrase = [key1, key2, key3, key4, key5, key6].join('');
+    const keyphrase = [key1, key2, key3, key4, key5, key6].join('').toLowerCase();
     const hash = crypto.createHash('sha256').update(keyphrase + salt).digest('hex');
     const useruid = data.user.id;
     const crypass = ferncrypt(keyphrase, '{}');
@@ -251,7 +251,7 @@ app.post('/keysignupverify', (req, res) =>{
         return res.render('keydisp', { error: 'Session expired. Please sign up again.', key1, key2, key3, key4, key5, key6 });
     }
 
-    const keyphraseentry = [key1entry, key2entry, key3entry, key4entry, key5entry, key6entry].join('');
+    const keyphraseentry = [key1entry, key2entry, key3entry, key4entry, key5entry, key6entry].join('').toLowerCase();
     if (storedKeyphrase === keyphraseentry){
         return res.redirect('/dashboard');
     }
